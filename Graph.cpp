@@ -13,4 +13,22 @@ return myAdjacencyLists[k].data;
 }
 
 void Graph::read(ifstream & inStream){
+VertexInfo vi;
+int n, vertex;
+myAdjacencyLists.push_back(vi);
+for(;;){
+inStream >> vi.data;
+cout << "VI data is " << vi.data << endl;
+if(inStream.eof()) break;
+//inStream >> n;
+n = 4;
+//cout << "N is " << n << endl;
+list<int> adjList;
+for(int i = 1; i <= n; i++){
+//inStream >> vertex;
+//adjList.push_back(vertex);
+}
+vi.adjacencyList = adjList;
+myAdjacencyLists.push_back(vi);
+}
 }
