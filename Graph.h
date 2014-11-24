@@ -9,18 +9,18 @@
 class Graph;
 
 class Graph{
-public:
-Graph();
-string data(int);
-void read(ifstream &);
-
-private:
-class VertexInfo{
-public:
-string data;
-list<int> adjacencyList;
+ public:
+  Graph();
+  string data(int);
+  void read(ifstream &);
+  
+ private:
+  class VertexInfo{
+  public:
+    string data;
+    list<int> adjacencyList;
 };
-vector<VertexInfo> myAdjacencyLists;
+  vector<VertexInfo> myAdjacencyLists;
 };
 #endif
 
