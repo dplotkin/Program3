@@ -11,3 +11,9 @@ Graph.o: Graph.cpp
 
 clean:
 	rm -f *.o Flight
+
+git: clean
+	git add -A;
+	git commit -m "automated git usage";
+	git pull;
+	git push;
