@@ -1,0 +1,20 @@
+all:	DateTimeFlight.exe
+
+DateTimeFlight.exe:	Flight.o Time.o Date.o DateTimeFlightDriver.o
+	g++ -std=c++11 -fpermissive Flight.o Time.o Date.o DateTimeFlightDriver.o -o DateTimeFlight.exe
+ 
+DateTimeFlightDriver.o:	DateTimeFlightDriver.cpp
+	g++ -std=c++11 -fpermissive -c DateTimeFlightDriver.cpp
+
+Date.o:	Date.cpp
+	g++ -std=c++11 -fpermissive -c Date.cpp		
+
+Time.o:	Time.cpp
+	g++ -std=c++11 -fpermissive -c Time.cpp	
+
+Flight.o:	Flight.cpp
+	g++ -std=c++11 -fpermissive -c Flight.cpp
+
+clean:
+	rm -f *.o doublesort
+
