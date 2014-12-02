@@ -1,7 +1,7 @@
 all: Flight
 
-Flight: driver.o Graph.o Flight.o Time.o Date.o
-	g++ -std=c++11 driver.o Graph.o Flight.o Time.o Date.o -o Flight
+Flight: driver.o Graph.o Flight.o Time.o Date.o City.o
+	g++ -std=c++11 driver.o Graph.o Flight.o Time.o Date.o City.o -o Flight
 
 driver.o: driver.cpp
 	g++ -std=c++11 -c driver.cpp -o driver.o
@@ -17,6 +17,10 @@ Time.o: Time.cpp
 
 Date.o: Date.cpp
 	g++ -std=c++11 -c Date.cpp -o Date.o
+
+City.o: City.cpp
+	g++ -std=c++11 -c City.cpp -o City.o
+
 clean:
 	rm -f *.o Flight
 
