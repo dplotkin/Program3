@@ -1,6 +1,6 @@
 all: Flight
 
-Flight: driver.o Graph.o
+Flight: driver.o Graph.o Flight.o
 	g++ driver.o Graph.o -o Flight
 
 driver.o: driver.cpp
