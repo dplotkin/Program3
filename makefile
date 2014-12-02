@@ -1,16 +1,16 @@
 all: Flight
 
 Flight: driver.o Graph.o Flight.o
-	g++ driver.o Graph.o -o Flight
+	g++ -std=c++11 driver.o Graph.o -o Flight
 
 driver.o: driver.cpp
-	g++ -c driver.cpp -o driver.o
+	g++ -std=c++11 -c driver.cpp -o driver.o
 
 Graph.o: Graph.cpp
-	g++ -c Graph.cpp -o Graph.o
+	g++ -std=c++11 -c Graph.cpp -o Graph.o
 
 Flight.o: Flight.cpp
-	g++ -c Flight.cpp -o Flight.o
+	g++ -std=c++11 -c Flight.cpp -o Flight.o
 
 clean:
 	rm -f *.o Flight
