@@ -9,6 +9,9 @@ driver.o: driver.cpp
 Graph.o: Graph.cpp
 	g++ -c Graph.cpp -o Graph.o
 
+Flight.o: Flight.cpp
+	g++ -c Flight.cpp -o Flight.o
+
 clean:
 	rm -f *.o Flight
 

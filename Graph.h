@@ -2,7 +2,7 @@
 #include <list>
 #include <iostream>
 #include <fstream>
-
+#include "Flight.h"
 #ifndef _Graph_H_
 #define _Graph_H_
 

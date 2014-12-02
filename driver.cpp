@@ -8,7 +8,7 @@ using namespace std;
 int main(int argc, char * argv[]){
   ifstream inFile(argv[1]);
   Graph graph;
-  //graph.read(inFile);
+  graph.read(inFile);
   inFile.close();
   
   //User-provided information
