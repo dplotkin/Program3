@@ -1,12 +1,13 @@
+#ifndef _Graph_H_
+#define _Graph_H_
+
+class Graph;
+
 #include <vector>
 #include <list>
 #include <iostream>
 #include <fstream>
 #include "Flight.h"
-#ifndef _Graph_H_
-#define _Graph_H_
-
-class Graph;
 
 class Graph{
  public:

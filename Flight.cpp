@@ -3,6 +3,7 @@
 //#include "Time.h"
 
 using namespace std;
+#include <string>
 
 Flight::Flight()
 {

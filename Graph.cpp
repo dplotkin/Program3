@@ -15,7 +15,7 @@ string Graph::data(int k){
 void Graph::read(ifstream & inStream){
   string originCity, destCity, depTime, arrTime, cost;
   VertexInfo vi;
- // Flight f1;
+  Flight f1;
   int n, vertex;
   myAdjacencyLists.push_back(vi);
   for(;;){
