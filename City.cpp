@@ -17,4 +17,8 @@ string City::getName(){
   return name;
 }
 
+vector<Flight> getFlights(){
+  return flights;
+}
+
 

@@ -17,6 +17,7 @@ class City{
   void addFlight(Flight f);
   string getName();
   //add how to get flights in the future
+  vector<Flight> getFlights();
  private:
   string name;
   vector<Flight> flights;
