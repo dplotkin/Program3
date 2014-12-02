@@ -1,3 +1,7 @@
+#ifndef _Date_H_
+#define _Date_H_
+class Date;
+
 using namespace std;
 
 class Date
@@ -28,3 +32,5 @@ class Date
 
   		void show();// myDate.show() prints out info useful for debugging Date object
 };
+
+#endif

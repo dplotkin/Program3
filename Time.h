@@ -21,7 +21,9 @@ private:
 };
 #endif
 */
-
+#ifndef _Time_H_
+#define _Time_H_
+class Time;
 using namespace std;
 
 class Time
@@ -54,3 +56,6 @@ class Time
 
   		void show();// myTime.show() prints out info useful for debugging Time object
 };
+
+
+#endif
