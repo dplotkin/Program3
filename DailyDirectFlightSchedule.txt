@@ -1,4 +1,4 @@
-New_York Philadelphia
-Boston
-Atlanta
-San_Francisco
+New_York Philadelphia 10:00am 11:00am $100
+New_York Boston 1:00pm 2:00pm $50
+Atlanta New_Orleans 5:00pm 8:00pm $200
+San_Francisco Los_Angeles 4:00am 6:00am $400
