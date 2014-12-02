@@ -48,5 +48,8 @@ void Graph::read(ifstream & inStream){
 
 void Graph::show(){
 for(int i = 0; i < cities.size(); i++){
+for(int j = 0; j < cities[i].getFlights().size(); j++){
+cout << cities[i].getFlights()[j].show();
+}
 }
 }
