@@ -25,6 +25,8 @@ private:
 #define _Time_H_
 class Time;
 using namespace std;
+#include <iostream>
+#include <fstream>
 
 class Time
 {

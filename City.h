@@ -19,7 +19,7 @@ class City{
   //add how to get flights in the future
  private:
   string name;
-  vector flights;
+  vector<Flight> flights;
 
 };
 

@@ -1,5 +1,5 @@
-#ifndef Flight_H_
-#define Flight_H_
+#ifndef _Flight_H_
+#define _Flight_H_
 
 #include "Time.h"
 

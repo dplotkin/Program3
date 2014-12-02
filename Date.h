@@ -3,6 +3,8 @@
 class Date;
 
 using namespace std;
+#include <iostream>
+#include <fstream>
 
 class Date
 {
