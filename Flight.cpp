@@ -85,5 +85,5 @@ void Flight::show()
 	cout << "cityTo = " << cityTo << endl;
 	cout << "timeFrom = " << timeFrom << endl;
 	cout << "timeTo = " << timeTo << endl;
-	cout << "cost = " << cost << endl;
+	cout << "cost = $" << cost << endl;
 }
