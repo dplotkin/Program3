@@ -8,7 +8,7 @@ class Graph;
 #include <iostream>
 #include <fstream>
 #include "Flight.h"
-
+#include "City.h"
 class Graph{
  public:
   Graph();
@@ -16,6 +16,7 @@ class Graph{
   void read(ifstream &);
   
  private:
+  vector<City> cities;
   class VertexInfo{
   public:
     string data;

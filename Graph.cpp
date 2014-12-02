@@ -27,7 +27,12 @@ void Graph::read(ifstream & inStream){
     inStream >> cost;
     Flight f1 = Flight(originCity, destCity, depTime, arrTime, cost);
     f1.show();
-    if(inStream.eof()) break;
+    City c1 = City(originCity);
+    c1.addFlight(f1);
+    cities.push_back(c1);
+//Watch out for repeats we need to fix this
+     
+   if(inStream.eof()) break;
     //inStream >> n;
     n = 4;
     //cout << "N is " << n << endl;
