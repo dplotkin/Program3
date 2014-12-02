@@ -1,3 +1,6 @@
+#ifndef Flight_H_
+#define Flight_H_
+
 #include "Time.h"
 
 using namespace std;
@@ -29,3 +32,5 @@ class Flight
   		void show();
 
 };
+
+#endif 
