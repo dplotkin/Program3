@@ -55,6 +55,7 @@ int main(int argc, char * argv[]){
   }
   else if(customerObjective == "P"){
     //Prints out the flights that are available. I.e. reads the information from the DDFS from our data structure
+    graph.show();
   }
   
   
