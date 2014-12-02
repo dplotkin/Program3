@@ -15,12 +15,18 @@ string Graph::data(int k){
 void Graph::read(ifstream & inStream){
   string originCity, destCity, depTime, arrTime, cost;
   VertexInfo vi;
-  Flight f1;
+ // Flight f1;
   int n, vertex;
   myAdjacencyLists.push_back(vi);
   for(;;){
-    inStream >> vi.data;
-    cout << "VI data is " << vi.data << endl;
+    //inStream >> vi.data;
+    inStream >> originCity;
+    inStream >> destCity;
+    inStream >> depTime;
+    inStream >> arrTime;
+    inStream >> cost;
+    Flight f1 = Flight(originCity, destCity, depTime, arrTime, cost);
+    f1.show();
     if(inStream.eof()) break;
     //inStream >> n;
     n = 4;
