@@ -45,3 +45,8 @@ void Graph::read(ifstream & inStream){
     myAdjacencyLists.push_back(vi);
   }
 }
+
+void Graph::show(){
+for(int i = 0; i < cities.size(); i++){
+}
+}

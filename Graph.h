@@ -14,7 +14,7 @@ class Graph{
   Graph();
   string data(int);
   void read(ifstream &);
-  
+  void show(); 
  private:
   vector<City> cities;
   class VertexInfo{
