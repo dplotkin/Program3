@@ -81,9 +81,10 @@ int Flight::returnDuration()
 // When debugging, print out values held in Flight object using myFlight.show():
 void Flight::show()
 {
-	cout << "cityFrom = " << cityFrom << endl;
-	cout << "cityTo = " << cityTo << endl;
-	cout << "timeFrom = " << timeFrom << endl;
-	cout << "timeTo = " << timeTo << endl;
-	cout << "cost = $" << cost << endl;
+	// cout << "cityFrom = " << cityFrom << endl;
+	// cout << "cityTo = " << cityTo << endl;
+	// cout << "timeFrom = " << timeFrom << endl;
+	// cout << "timeTo = " << timeTo << endl;
+	// cout << "cost = $" << cost << endl;
+  cout << cityFrom << " " << cityTo << " " << timeFrom << " " << timeTo << " " << cost << endl;
 }

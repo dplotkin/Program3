@@ -26,7 +26,7 @@ void Graph::read(ifstream & inStream){
     inStream >> arrTime;
     inStream >> cost;
     Flight f1 = Flight(originCity, destCity, depTime, arrTime, cost);
-    f1.show();
+    // f1.show();
     City c1 = City(originCity);
     c1.addFlight(f1);
     cities.push_back(c1);
@@ -47,9 +47,9 @@ void Graph::read(ifstream & inStream){
 }
 
 void Graph::show(){
-for(int i = 0; i < cities.size(); i++){
-for(int j = 0; j < cities[i].getFlights().size(); j++){
-cout << cities[i].getFlights()[j].show();
-}
-}
+  for(int i = 0; i < cities.size(); i++){
+    for(int j = 0; j < cities[i].getFlights().size(); j++){
+      cities[i].getFlights()[j].show();
+    }
+  }
 }

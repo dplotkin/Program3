@@ -40,26 +40,38 @@ int main(int argc, char * argv[]){
   cout << "\tS: Shortest Trip: Find the itinerary that will minimize the time between leaving from the departure city, and arriving at the destination city… and will also minimize the time between starting the return from the destination city and arriving back at the departure city on the return date." << endl;
   cout << "\tC: Cheapest: Find the cheapest (potentially multi-hop) itinerary, in terms of dollars, that meets the trip constraints." << endl;
   cout << "\tP: Print: Print out the Daily Flight Schedule." << endl;
-  cin >> customerObjective;
-  if(customerObjective == "J"){
-    cout << "We are sorry, this option is not yet implemented. Have a nice day!" << endl;
-  }
-  else if(customerObjective == "F"){
-    cout << "We are sorry, this option is not yet implemented. Have a nice day!" << endl;
-  }
-  else if(customerObjective == "C"){
-    cout << "We are sorry, this option is not yet implemented. Have a nice day!" << endl;
-  }
-  else if(customerObjective == "S"){
-    cout << "We are sorry, this option is not yet implemented. Have a nice day!" << endl;
-  }
-  else if(customerObjective == "P"){
-    //Prints out the flights that are available. I.e. reads the information from the DDFS from our data structure
-     
- }
-    graph.show();
+  bool correctInput;
+  while(!correctInput){
+    cin >> customerObjective;
+    if(customerObjective == "J" || customerObjective == "j"){
+      cout << "We are sorry, this option is not yet implemented. Have a nice day!" << endl;
+      correctInput = true;
+    }
+    else if(customerObjective == "F" || customerObjective == "f"){
+      cout << "We are sorry, this option is not yet implemented. Have a nice day!" << endl;
+      correctInput = true;
+    }
+    else if(customerObjective == "C" || customerObjective == "c"){
+      cout << "We are sorry, this option is not yet implemented. Have a nice day!" << endl;
+      correctInput = true;
+    }
+    else if(customerObjective == "S" || customerObjective == "s"){
+      cout << "We are sorry, this option is not yet implemented. Have a nice day!" << endl;
+      correctInput = true;
+    }
+    else if(customerObjective == "P" || customerObjective == "p"){
+      //Prints out the flights that are available. I.e. reads the information from the DDFS from our data structure
+      graph.show();
+      correctInput = true;
+    }
+    else{
+      cout << "Input not recognized. Please try again." << endl;
+    }
   }
   
+  
+}
+
   
   
 
