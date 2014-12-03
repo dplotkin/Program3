@@ -22,9 +22,9 @@ City.o: City.cpp
 	g++ -std=c++11 -c City.cpp -o City.o
 
 clean:
-	rm -f *.o Flight
+	rm -f *.o *~ Flight
 
-git: clean
+git: 	clean
 	git add -A;
 	git commit -m "automated git usage";
 	git pull;
