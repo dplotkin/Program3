@@ -14,7 +14,12 @@ class Graph{
   Graph();
   string data(int);
   void read(ifstream &);
-  void show(); 
+  void show();
+
+  void showFlightsFromCity(const string &);
+  Flight returnFlightWithEarliestPossibleArrival(const string &, const string &, const Time &);
+  void runDijkstraAlgorithm(const string &, const string &);
+
  private:
   vector<City> cities;
   class VertexInfo{
@@ -25,4 +30,3 @@ class Graph{
   vector<VertexInfo> myAdjacencyLists;
 };
 #endif
-
