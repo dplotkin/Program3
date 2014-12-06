@@ -2,6 +2,20 @@ Program3
 ========
 Responsibilites:
 
+George Metzger:
+       Working on the Date and Time class for efficient and useful storage of those things.
+       Finding the Shortest Travel Time. 
+
+Leonid Mamut:
+       Building of the Graph.
+       Finding the Fewest Hops.
+
+Denis Plotkin:
+      Dealing with input and manipulation thereof.
+      Building the proper classes to store objects such as a city, a flight, etc.
+      Setting up git repository, resolving logistics to make working streamlined.
+      Just Get Me There.
+
 Description of Algorithms
 
 Finding the Shortest Travel Time - We’ll use Dijkstra's Algorithm here. 
@@ -35,14 +49,14 @@ either try a non-greedy algorithm here, such as Bellman-Ford, or use
 brute force to find every possible itinerary … and then choose the 
 cheapest one that unfolds  within the scope of a day.
 
-Write-Ups:
-Fewest Hops: The Fewest Hops Algorithim will be use a shortest-path 
-algorithim. We will use Dijkstra's algorithim to solve this problem. 
-The weight of each edge will be 1 though, so the fewest hops can be 
-stored and using the earliest possible edge. Dijkstra's algorithim will 
-produce a shortest path graph. 
 
 Timeline:
-Sunday (12/7): Have algorithims finished?
-Monday (12/8): Meetup after class to plan for presentation.
-Tusday (12/9): Presentation in lab
+November 22nd: Met up to establish our workflow, including setting up a git repository and figuring out what data structures we would use, specifically in regards to working on Lab 8.
+Sunday (12/7): Have algorithims finished. Decide, based on if this is accomplished, whether to pursue the extra credit or work on the core requirements first.
+Monday (12/8): Meetup after class to plan for presentation as well as to work on whatever we couldn't finish on our own.
+Tuesday (12/9): Presentation in lab
+
+
+Design:
+
+Our design consists of a two tiered vector structure. At the top layer, we have a vector of City objects. When we read in the information from the DDFS file, we build up this vector, constructing a new city based on the origin city. We also check if the destination city is in the vector; if it isn't, we add it as well. Each city is only added once. After the city is added (or if it was already in there), we add a flight to the city. This consists of adding a Flight object to the vector within the city class. A flight consists of all the information on the line in the DDFS file and is the "edge" in our graph, and the city is the vertex. 
