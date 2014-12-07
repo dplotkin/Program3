@@ -1,6 +1,7 @@
 #include <iostream>
 #include <fstream>
 #include <vector>
+#include <queue>
 using namespace std;
 #include <string>
 #include "Graph.h"
@@ -377,3 +378,29 @@ Flight Graph::oneDijkstraPass(int *negOneIfVertexInSetS, int *dist, vector<Fligh
 
   return shortestFlight;
 }// end fn oneDijkstraPass
+
+int Graph::shortestPath(int start, int destination){
+int n = cities.size(); 
+vector<int> distLabel(n, -1), predLabel(n);
+distLabel[start] = 0;
+int distance = 0, vertex;
+queue <int> vertexQueue;
+vertexQueue.push(start);
+while(distLabel[destination] < 0 && !vertexQueue.empty()){
+vertex = vertexQueue.front();
+vertexQueue.pop();
+if(distLabel[vertex] > distance){
+distance++;
+}
+/*for(vector<int>::iterator it = cities.begin(); it != cities.end(); it++){
+if(distLabel[*it] < 0){
+distLabel[*it] = distance + 1;
+predLabel[*it] = vertex;
+vertexQueue.push(*it);
+}
+*/
+}
+distance++;
+}
+
+
