@@ -66,3 +66,4 @@ Philadelphia Denver 1:30pm 2:00pm $220
 Nashville Los_Angeles 12:30pm 5:00pm $220
 Denver San_Francisco 9:00pm 11:00pm $210
 New_York Binghamton 10:05am 10:55am $300
+

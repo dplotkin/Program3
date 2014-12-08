@@ -45,28 +45,39 @@ int main(int argc, char * argv[]){
     cin >> customerObjective;
     if(customerObjective == "J" || customerObjective == "j"){
       cout << "We are sorry, this option is not yet implemented. Have a nice day!" << endl;
+      correctInput = true;
+	}	
+    
+    else if(customerObjective == "F" || customerObjective == "f"){
       vector<Flight> flights;
-      flights = graph.runDijkstraAlgorithm(departure,destination, 'J');
+      flights = graph.runDijkstraAlgorithm(departure,destination, 'F');
       for(int i = 0; i < flights.size(); i++){
 flights[i].show();
 }
 cout << "Return Flight" << endl;
-      flights = graph.runDijkstraAlgorithm(destination,departure,'J');
+      flights = graph.runDijkstraAlgorithm(destination, departure, 'F');
 for(int i = 0; i < flights.size(); i++){
 flights[i].show();
 }
       correctInput = true;
-    }
-    else if(customerObjective == "F" || customerObjective == "f"){
-      cout << "We are sorry, this option is not yet implemented. Have a nice day!" << endl;
-      correctInput = true;
-    }
+    
+}
     else if(customerObjective == "C" || customerObjective == "c"){
       cout << "We are sorry, this option is not yet implemented. Have a nice day!" << endl;
       correctInput = true;
     }
+
     else if(customerObjective == "S" || customerObjective == "s"){
-      cout << "We are sorry, this option is not yet implemented. Have a nice day!" << endl;
+      vector<Flight> flights;
+      flights = graph.runDijkstraAlgorithm(departure,destination, 'S');
+      for(int i = 0; i < flights.size(); i++){
+flights[i].show();
+}
+cout << "Return Flight" << endl;
+flights = graph.runDijkstraAlgorithm(destination,departure, 'S');
+for(int i = 0; i < flights.size(); i++){
+flights[i].show();
+}
       correctInput = true;
     }
     else if(customerObjective == "P" || customerObjective == "p"){

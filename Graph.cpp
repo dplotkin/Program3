@@ -123,6 +123,31 @@ Flight Graph::returnFlightWithEarliestPossibleArrival(const string &cityFrom, co
   return flightWithEarliestPossibleArrival; 
 }
 
+Flight Graph::returnFlightForFewestHops(const string &cityFrom, const string &cityTo)
+{
+  Flight flightWithEarliestPossibleArrival("NULL", "NULL", "12:00am", "11:59pm", "$999998");
+
+  for(int i = 0; i < cities.size(); i++)//.size() = total number of flights
+  {
+    if (cities[i].getName() == cityFrom)
+    {
+      for(int j = 0; j < cities[i].getFlights().size(); j++)// j = index of flight in flights vector.
+      {// Loop through flights leaving the city cities[i].
+        if (cities[i].getFlights()[j].returnCityTo() == cityTo)
+        {// ... the flight goes to the city specified, and it leaves after the predecessor flight arrives.
+          if (cities[i].getFlights()[j].returnTimestampTo() <= flightWithEarliestPossibleArrival.returnTimestampTo())
+          {// ... then the flight's the earliest flight *arriving* at the city specified.
+            flightWithEarliestPossibleArrival = cities[i].getFlights()[j];
+          }
+        }
+      }// end for j loop.
+    }// end if.
+  }// end for i loop.
+
+  return flightWithEarliestPossibleArrival;
+}
+
+
 
 // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 // %%%%%%%%%%%%%%%%%%%%%%%%%% fn runDijkstraAlgorithm %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -133,7 +158,7 @@ vector<Flight> Graph::runDijkstraAlgorithm(const string &citySource, const strin
   bool debugModeOn = false;
   vector<string> cityNamesByIndex;
   vector<Flight> shortestPath;
-
+  vector<Flight> fewestHopsPath;
   int numberOfVertices = cities.size();
 
   // Put all cities into vector cityNamesByIndex:
@@ -184,12 +209,19 @@ vector<Flight> Graph::runDijkstraAlgorithm(const string &citySource, const strin
   flightToCity.push_back(nullFlight);// Flight from city 0 to city 0 is always a nullFlight.
 
   Flight flightWithEarliestPossibleArrival;
+  Flight flightForFewestHops;
   Time timeFromSourceCity("12:00am");
   for (int i = 1; i < numberOfVertices; i++)
   {
     // FEWEST HOPS: flightThatGetsMeThere
-    flightWithEarliestPossibleArrival = (*this).returnFlightWithEarliestPossibleArrival(cityNamesByIndex[0], cityNamesByIndex[i], timeFromSourceCity);
+    if(searchOption == 'S' || searchOption == 's'){
+flightWithEarliestPossibleArrival = (*this).returnFlightWithEarliestPossibleArrival(cityNamesByIndex[0], cityNamesByIndex[i], timeFromSourceCity);
     flightToCity.push_back(flightWithEarliestPossibleArrival);       
+}
+if(searchOption == 'F' || searchOption == 'f'){
+flightForFewestHops = (*this).returnFlightForFewestHops(cityNamesByIndex[0], cityNamesByIndex[i]);
+flightToCity.push_back(flightForFewestHops);
+}
   }
 
   if (debugModeOn)
@@ -213,11 +245,16 @@ vector<Flight> Graph::runDijkstraAlgorithm(const string &citySource, const strin
     }
     else
     {
+if(searchOption == 'S' || searchOption == 's'){
       // ... there is a flight to city i, so set the weight to the flight's time duration.
       weightToCity[i] = flightToCity[i].returnDuration();
       // FEWEST HOPS: weightToCity[i] = 1
     }
-  }// end for i loop.
+if(searchOption == 'F' || searchOption == 'f'){
+weightToCity[i] = 1;
+}
+  }
+}// end for i loop.
 
   if (debugModeOn)
   {
@@ -376,6 +413,7 @@ void Graph::oneDijkstraPass(int numberOfVertices, int *negOneIfVertexInSetS, int
   Time timeArrivalPreceedingFlight = lastLegOfShortestDist.returnTimeToAsObject();
   Flight nullFlight("NULL", "NULL", "12:00am", "11:59pm", "$999999");
   Flight flWithEarliestPossArr;
+  Flight flForFewestHops;
 
   // ############### Build vector flightFromMinInQueueTo for vertexWithMinDistInSetQ #############
 
@@ -386,11 +424,15 @@ void Graph::oneDijkstraPass(int numberOfVertices, int *negOneIfVertexInSetS, int
     {// ... assign nullFlights to flights headed for cities already in/destined for Set S.
       flightFromMinInQueueTo.push_back(nullFlight);
     }
-    else
+    else if(searchOption == 'S' || searchOption == 's'){
     {// ... get edges on the fly that best connect with the arrival time of proceeding flight.
       flWithEarliestPossArr = (*this).returnFlightWithEarliestPossibleArrival(cityNamesByIndex[vertexWithMinDistInSetQ], cityNamesByIndex[i], timeArrivalPreceedingFlight);
       flightFromMinInQueueTo.push_back(flWithEarliestPossArr);
-    }       
+    }       }
+else if(searchOption == 'F' || searchOption == 'f'){
+flForFewestHops = (*this).returnFlightForFewestHops(cityNamesByIndex[vertexWithMinDistInSetQ], cityNamesByIndex[i]);
+flightFromMinInQueueTo.push_back(flForFewestHops);
+}
   }// end for i loop.
 
   // ##################################### Determine weights #####################################
@@ -403,10 +445,14 @@ void Graph::oneDijkstraPass(int numberOfVertices, int *negOneIfVertexInSetS, int
     {// ... there is no flight to city i, so set the weight to -1 (infinity).
       weightToCity[i] = -1;
     }
-    else
-    {// ... there is a flight to city i.
-      weightToCity[i] = flightFromMinInQueueTo[i].returnTimestampTo() - lastLegOfShortestDist.returnTimestampTo();
-    }
+    else{
+if(searchOption == 'S' || searchOption == 's'){
+    // ... there is a flight to city i.
+      weightToCity[i] = flightFromMinInQueueTo[i].returnTimestampTo() - lastLegOfShortestDist.returnTimestampTo();}
+if(searchOption == 'F' || searchOption == 'f'){
+weightToCity[i] = 1;
+}    
+}
   }// end for i loop.
 
   if (debugModeOn)
