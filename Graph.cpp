@@ -101,7 +101,7 @@ void Graph::showFlightsFromCity(const string &nameCity)
 
 Flight Graph::returnFlightWithEarliestPossibleArrival(const string &cityFrom, const string &cityTo, const Time & earliestPossibleTimeFrom)
 {
-  Flight flightWithEarliestPossibleArrival("NULL", "NULL", "12:00am", "11:59pm", "$999999");
+  Flight flightWithEarliestPossibleArrival("NULL", "NULL", "12:00am", "11:59pm", "$999998");
 
   for(int i = 0; i < cities.size(); i++)//.size() = total number of flights
   {
@@ -111,10 +111,6 @@ Flight Graph::returnFlightWithEarliestPossibleArrival(const string &cityFrom, co
       {// Loop through flights leaving the city cities[i].
         if (cities[i].getFlights()[j].returnCityTo() == cityTo && cities[i].getFlights()[j].returnTimeFrom() >= earliestPossibleTimeFrom)
         {// ... the flight goes to the city specified, and it leaves after the predecessor flight arrives.
-          //cout <<endl<< "flightWithEarliestPossibleArrival.returnTimeTo() = "<< flightWithEarliestPossibleArrival.returnTimeTo() <<":" <<endl;
-          //cout << "flightWithEarliestPossibleArrival.returnTimestampTo() = "<< flightWithEarliestPossibleArrival.returnTimestampTo() <<":" <<endl;
-          //flightWithEarliestPossibleArrival.show();
-
           if (cities[i].getFlights()[j].returnTimestampTo() <= flightWithEarliestPossibleArrival.returnTimestampTo())
           {// ... then the flight's the earliest flight *arriving* at the city specified.
             flightWithEarliestPossibleArrival = cities[i].getFlights()[j];
@@ -132,8 +128,9 @@ Flight Graph::returnFlightWithEarliestPossibleArrival(const string &cityFrom, co
 // %%%%%%%%%%%%%%%%%%%%%%%%%% fn runDijkstraAlgorithm %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-void Graph::runDijkstraAlgorithm(const string &citySource, const string &cityDest)
+vector<Flight> Graph::runDijkstraAlgorithm(const string &citySource, const string &cityDest)
 {
+  bool debugModeOn = false;
   vector<string> cityNamesByIndex;
   vector<Flight> shortestPath;
 
@@ -145,7 +142,8 @@ void Graph::runDijkstraAlgorithm(const string &citySource, const string &cityDes
     cityNamesByIndex.push_back( cities[i].getName() );
   }
 
-  // Put SOURCE city into cityNamesByIndex[0] and DESTINATION city into cityNamesByIndex[cities.size() - 1]:
+  // # Put SOURCE city into cityNamesByIndex[0] and DESTINATION city into cityNamesByIndex[cities.size() - 1] #
+
   for (int i = 0; i < numberOfVertices; i++)
   {
     if (cityNamesByIndex[i] == citySource)
@@ -162,19 +160,12 @@ void Graph::runDijkstraAlgorithm(const string &citySource, const string &cityDes
       cityNamesByIndex[i] = tempCityName;
     }
   }// end for i loop.
-/*  
-  for (int i = 0; i < cityNamesByIndex.size(); i++)
-  {
-    cout << "Hey, cityNamesByIndex[i] = " << cityNamesByIndex[i] << endl;
-  }
-
-*/
 
   int negOneIfVertexInSetS[numberOfVertices];
   int distToCity[numberOfVertices];
-  //int predecessorVertexTo[numberOfVertices];
 
-  // all vertices start in Set Q:
+  // ###################### all vertices start in Set Q ######################
+
   for (int i = 0; i < numberOfVertices; i++)
   {
     // When vertex is still in Q, negOneIfVertexInSetS[i] is positive:
@@ -185,44 +176,36 @@ void Graph::runDijkstraAlgorithm(const string &citySource, const string &cityDes
   negOneIfVertexInSetS[0] = -1;
   distToCity[0] = 0;
 
-/*  // Preset the predecessor vertex to each vertex to 0:
-  for (int i = 0; i < numberOfVertices; i++)
-  { 
-    // When we don't know the predecessor vertex, we'll say it's vertex 0:
-    predecessorVertexTo[i] = 0; 
-  }*/
-
-  cout << "cityNamesByIndex[0] = " << cityNamesByIndex[0] << endl;
-
-  // Vector relevantFlightsOut contains flights out from the city presently being visited by Dijkstra's 
-  // Algorithm. There is one relevant flight (the one arrving earliest, for instance) to each city.
-  // If there is no flight to that particular city, then a dummy nullFlight is scheduled to that city.
-  vector<Flight> relevantFlightsOut;
+  vector<Flight> flightToCity;
   Flight nullFlight("NULL", "NULL", "12:00am", "11:59pm", "$999999");
 
-  // Populate vector relevantFlightsOut from city 0, the source:
-  relevantFlightsOut.push_back(nullFlight);// Flight from city 0 to city 0 is always a nullFlight.
+  // ########## Populate vector flightToCity from city 0, the source ##########
+
+  flightToCity.push_back(nullFlight);// Flight from city 0 to city 0 is always a nullFlight.
 
   Flight flightWithEarliestPossibleArrival;
   Time timeFromSourceCity("12:00am");
   for (int i = 1; i < numberOfVertices; i++)
   {
     flightWithEarliestPossibleArrival = (*this).returnFlightWithEarliestPossibleArrival(cityNamesByIndex[0], cityNamesByIndex[i], timeFromSourceCity);
-    relevantFlightsOut.push_back(flightWithEarliestPossibleArrival);       
+    flightToCity.push_back(flightWithEarliestPossibleArrival);       
   }
 
-/*  cout << "^flights out from city 0: " << endl;
-  for (int i = 0; i < numberOfVertices; i++)
+  if (debugModeOn)
   {
-    cout << "Flight from source city " << cityNamesByIndex[0] << " to " << cityNamesByIndex[i] << ": ";
-    relevantFlightsOut[i].show();
-  }*/
+    cout << "Before call to oneDijkstraPass, the vector flightToCity holds:" << endl;
+    for (int i = 0; i < numberOfVertices; i++)
+    {
+      flightToCity[i].show();
+    }
+  }// end if debug.
+
+  // ########################### Set WEIGHTs of edges from city 0 ###########################
 
   int weightToCity[numberOfVertices];
-  // Set WEIGHTs of edges from city 0:
   for (int i = 0; i < numberOfVertices; i++)
   {
-    if (relevantFlightsOut[i].returnCityTo() == "NULL")
+    if (flightToCity[i].returnCityTo() == "NULL")
     {
       // ... there is no flight to city i, so set the weight to -1 (infinity).
       weightToCity[i] = -1;
@@ -230,14 +213,17 @@ void Graph::runDijkstraAlgorithm(const string &citySource, const string &cityDes
     else
     {
       // ... there is a flight to city i, so set the weight to the flight's time duration.
-      weightToCity[i] = relevantFlightsOut[i].returnDuration();
+      weightToCity[i] = flightToCity[i].returnDuration();
     }
   }// end for i loop.
 
-  for (int i = 0; i < numberOfVertices; i++)
+  if (debugModeOn)
   {
-    cout << "Flight duration from source city " << cityNamesByIndex[0] << " to " << cityNamesByIndex[i] << " = " << weightToCity[i] << endl;
-  }
+    for (int i = 0; i < numberOfVertices; i++)
+    {
+      cout << "Before call to oneDijkstraPass, weight from source city " << cityNamesByIndex[0] << " to " << cityNamesByIndex[i] << " = " << weightToCity[i] << endl;
+    }
+  }// end if debug.
 
   // Set DISTANCEs to vertices adjacent to vertex 0, the source ... and set their predecessor vertex to vertex 0:
   for (int i = 1; i < numberOfVertices; i++)
@@ -245,36 +231,72 @@ void Graph::runDijkstraAlgorithm(const string &citySource, const string &cityDes
     distToCity[i] = weightToCity[i];
   }
 
-  // Call function oneDijkstraPass (numberOfVertices - 1) times:
-  Flight shortestFlight;
+  // ################### Call function oneDijkstraPass (numberOfVertices - 1) times ###################
+
   for (int dijkIteration = 1; dijkIteration < numberOfVertices; dijkIteration++)
   {
-    shortestFlight = oneDijkstraPass(negOneIfVertexInSetS, distToCity, relevantFlightsOut, cityNamesByIndex /*predecessorVertexTo/*, weightToCity*/);
-    shortestPath.push_back(shortestFlight);
+    if (debugModeOn)
+      cout << endl << "Dijkstra iteration #" << dijkIteration << ": *********************************************" << endl;
 
-    cout << "Dijkstra iteration #" << dijkIteration << ":" << endl;
+    oneDijkstraPass(numberOfVertices, negOneIfVertexInSetS, distToCity, flightToCity, cityNamesByIndex);
 
-    // Show current distances to all vertices for each pass:
-    for (int i = 0; i < numberOfVertices; i++)
+    if (debugModeOn)
     {
-      if (distToCity[i] == -1)
-        cout << "dist[" << i << "] = inf" << (char)9;
-      else
-        cout << "dist[" << i << "] = " << distToCity[i] << (char)9;
-    }
-    cout << endl;
+      // Show current distances to all vertices for each pass:
+      for (int i = 0; i < numberOfVertices; i++)
+      {
+        if (distToCity[i] == -1)
+          cout << "inf" << (char)9;
+        else
+          cout << distToCity[i] << (char)9;
+      }
+      cout << endl;
 
-    // Show which vertices have already been visited:
-    for (int i = 0; i < numberOfVertices; i++)
-    {
-      if (negOneIfVertexInSetS[i] == -1)
-        cout << "vrtx " << i << " in S" << (char)9;
-      else
-        cout << "vrtx " << i << " in Q" << (char)9;
-    }
-    cout << endl;          
+      // Show which vertices have already been visited:
+      for (int i = 0; i < numberOfVertices; i++)
+      {
+        if (negOneIfVertexInSetS[i] == -1)
+          cout << i << " in S" << (char)9;
+        else
+          cout << i << " in Q" << (char)9;
+      }
+      cout << endl;
 
+      // Show flightToCity:
+      for (int i = 0; i < numberOfVertices; i++)
+      {
+        cout << "flightToCity for city " << i << ": ";
+        flightToCity[i].show();
+      }
+      cout << endl;
+
+      // Show shortest path from source to destination:
+      cout << "Here's the shortest path:" << endl;
+      for (vector<Flight>::iterator iter = shortestPath.begin(); iter != shortestPath.end(); ++iter)
+      {
+        (*iter).show();
+      }
+      cout << endl;
+    }// end if debug.
   }// end for dijkIteration loop.
+
+  // ##### Assemble shortest path from source (vertex 0) to destination (vertex (numberOfVertices - 1)) #####
+  //cplusplus.com/reference/vector/vector/insert/
+  vector<Flight>::iterator it;
+  int cityToAsInt = numberOfVertices - 1;
+  while (cityToAsInt != 0)
+  {
+    it = shortestPath.begin();
+    it = shortestPath.insert(it, flightToCity[cityToAsInt]);
+
+    for (int i = 0; i < numberOfVertices; i++)
+    {
+      if ( cityNamesByIndex[i] == flightToCity[cityToAsInt].returnCityFrom() )
+        cityToAsInt = i;
+    }
+  }// end while (cityToAsInt != 0) loop.
+
+  return shortestPath;
 }// end fn runDijkstraAlgorithm.
 
 
@@ -282,78 +304,80 @@ void Graph::runDijkstraAlgorithm(const string &citySource, const string &cityDes
 // %%%%%%%%%%%%%%%%%%%%%%%%%%%% fn oneDijkstraPass %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-
-//void oneDijkstraPass(int *negOneIfVertexInSetS, int *dist, int *predecessorVertexTo/*, int weight[numberOfVertices][numberOfVertices]*/)
-Flight Graph::oneDijkstraPass(int *negOneIfVertexInSetS, int *dist, vector<Flight> &relevantFlightsOut, const vector<string> &cityNamesByIndex /*int *predecessorVertexTo, int *weight*/)
+void Graph::oneDijkstraPass(int numberOfVertices, int *negOneIfVertexInSetS, int *dist, vector<Flight> &flightToCity, const vector<string> &cityNamesByIndex /*int *predecessorVertexTo, int *weight*/)
 {
-  int minDistInSetQ = 32767;// 32767 = infinity, I guess.
+  bool debugModeOn = false;
+  int minDistInSetQ = 9999999;// 9999999 = infinity.
   int vertexWithMinDistInSetQ = 0;// Preset vertexWithMinDistInSetQ as vertex 0 (the source vertex).
-  Flight shortestFlight;
 
-  int numberOfVertices = sizeof(negOneIfVertexInSetS);
+  Flight lastLegOfShortestDist;
 
-  // ################# Identify the vertex still in Set Q with the shortest path #################
+  // ################# Identify the vertex still in Set Q with the shortest DIST #################
 
   for (int i = 0; i < numberOfVertices; i++)
   {
-    if (negOneIfVertexInSetS[i] == -1)
+    if (negOneIfVertexInSetS[i] == -1)// Don't look at distances to cities already in S.
       continue;// Go to end of for i loop.
-
+ 
     if (dist[i] > 0 && dist[i] < minDistInSetQ)
     {
       minDistInSetQ = dist[i];
       vertexWithMinDistInSetQ = i;
-      shortestFlight = relevantFlightsOut[i];
+      lastLegOfShortestDist = flightToCity[i];
     }
   }// end for i loop.
 
-  cout << "   Obtain all vertices from vertex " << vertexWithMinDistInSetQ << " here, because ..." << endl;   
-
-  // Vertex with shortest path in Set Q gets put into Set S:
+  // ===> vertex with shortest path in Set Q gets put into Set S:
   negOneIfVertexInSetS[vertexWithMinDistInSetQ] = -1;
 
-  relevantFlightsOut.clear();
+  // ################# Get edges (flights) out of vertexWithMinDistInSetQ  #######################
 
-  // ############################## Determine weights ##############################
-
-  Time timeArrivalPreceedingFlight = shortestFlight.returnTimeToAsObject();
+  Time timeArrivalPreceedingFlight = lastLegOfShortestDist.returnTimeToAsObject();
   Flight nullFlight("NULL", "NULL", "12:00am", "11:59pm", "$999999");
   Flight flWithEarliestPossArr;
 
-  // ########## Remake vector relevantFlightsOut for vertexWithMinDistInSetQ #########
+  // ############### Build vector flightFromMinInQueueTo for vertexWithMinDistInSetQ #############
+
+  vector<Flight> flightFromMinInQueueTo;
   for (int i = 0; i < numberOfVertices; i++)
   {
     if (i == vertexWithMinDistInSetQ || negOneIfVertexInSetS[i] == -1)
     {// ... assign nullFlights to flights headed for cities already in/destined for Set S.
-      relevantFlightsOut.push_back(nullFlight);
+      flightFromMinInQueueTo.push_back(nullFlight);
     }
     else
     {// ... get edges on the fly that best connect with the arrival time of proceeding flight.
       flWithEarliestPossArr = (*this).returnFlightWithEarliestPossibleArrival(cityNamesByIndex[vertexWithMinDistInSetQ], cityNamesByIndex[i], timeArrivalPreceedingFlight);
-      relevantFlightsOut.push_back(flWithEarliestPossArr);
+      flightFromMinInQueueTo.push_back(flWithEarliestPossArr);
     }       
   }// end for i loop.
+
+  // ##################################### Determine weights #####################################
 
   // Set WEIGHTs of edges from the city that's the vertexWithMinDistInSetQ:
   int weightToCity[numberOfVertices];
   for (int i = 0; i < numberOfVertices; i++)
   {
-    //relevantFlightsOut[1].show();
-
-    if (relevantFlightsOut[i].returnCityTo() == "NULL")
-    {
-      // ... there is no flight to city i, so set the weight to -1 (infinity).
+    if (flightFromMinInQueueTo[i].returnCityTo() == "NULL")
+    {// ... there is no flight to city i, so set the weight to -1 (infinity).
       weightToCity[i] = -1;
     }
-
     else
-    {
-      // ... there is a flight to city i, so set the weight to the flight's time duration.
-      weightToCity[i] = relevantFlightsOut[i].returnDuration();
+    {// ... there is a flight to city i.
+      weightToCity[i] = flightFromMinInQueueTo[i].returnTimestampTo() - lastLegOfShortestDist.returnTimestampTo();
     }
   }// end for i loop.
 
-  // ################################ Get new DISTs using relaxation ################################
+  if (debugModeOn)
+  {
+    for (int i = 0; i < numberOfVertices; i++)
+    {
+      cout << "In oneDijkstraPass, Flight weight from " << cityNamesByIndex[vertexWithMinDistInSetQ] <<" to " << cityNamesByIndex[i] << " = " << weightToCity[i] << ": "<<lastLegOfShortestDist.returnTimeTo()<<"-"<< flightFromMinInQueueTo[i].returnTimeTo()<< endl;
+    }
+    cout << endl;
+  }// end if debugModeOn.
+
+  // ############################### Get new DISTs using relaxation ##############################
 
   for (int i = 0; i < numberOfVertices; i++)
   {
@@ -364,7 +388,7 @@ Flight Graph::oneDijkstraPass(int *negOneIfVertexInSetS, int *dist, vector<Fligh
     if (dist[i] < 0)
     {
       dist[i] = minDistInSetQ + weightToCity[i];
-      //predecessorVertexTo[i] = vertexWithMinDistInSetQ;
+      flightToCity[i] = flightFromMinInQueueTo[i];
       continue;// Go to end of for i loop.
     }
 
@@ -372,35 +396,7 @@ Flight Graph::oneDijkstraPass(int *negOneIfVertexInSetS, int *dist, vector<Fligh
     if ((dist[vertexWithMinDistInSetQ] + weightToCity[i]) < dist[i])
     {
       dist[i] = minDistInSetQ + weightToCity[i];
-      //predecessorVertexTo[i] = vertexWithMinDistInSetQ;
+      flightToCity[i] = flightFromMinInQueueTo[i];
     }
   }// end for i loop.
-
-  return shortestFlight;
 }// end fn oneDijkstraPass
-
-int Graph::shortestPath(int start, int destination){
-int n = cities.size(); 
-vector<int> distLabel(n, -1), predLabel(n);
-distLabel[start] = 0;
-int distance = 0, vertex;
-queue <int> vertexQueue;
-vertexQueue.push(start);
-while(distLabel[destination] < 0 && !vertexQueue.empty()){
-vertex = vertexQueue.front();
-vertexQueue.pop();
-if(distLabel[vertex] > distance){
-distance++;
-}
-/*for(vector<int>::iterator it = cities.begin(); it != cities.end(); it++){
-if(distLabel[*it] < 0){
-distLabel[*it] = distance + 1;
-predLabel[*it] = vertex;
-vertexQueue.push(*it);
-}
-*/
-}
-distance++;
-}
-
-
