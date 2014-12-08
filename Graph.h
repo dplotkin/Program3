@@ -18,8 +18,8 @@ class Graph{
 
   void showFlightsFromCity(const string &);
   Flight returnFlightWithEarliestPossibleArrival(const string &, const string &, const Time &);
-  vector<Flight> runDijkstraAlgorithm(const string &, const string &);
-  void oneDijkstraPass(int, int*, int*, vector<Flight> &, const vector<string> &);
+  vector<Flight> runDijkstraAlgorithm(const string &, const string &, const char &);
+  void oneDijkstraPass(int, int*, int*, vector<Flight> &, const vector<string> &, const char &);
 
  private:
   vector<City> cities;
