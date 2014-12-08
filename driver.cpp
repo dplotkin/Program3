@@ -50,6 +50,11 @@ int main(int argc, char * argv[]){
       for(int i = 0; i < flights.size(); i++){
 flights[i].show();
 }
+cout << "Return Flight" << endl;
+      flights = graph.runDijkstraAlgorithm(destination,departure,'J');
+for(int i = 0; i < flights.size(); i++){
+flights[i].show();
+}
       correctInput = true;
     }
     else if(customerObjective == "F" || customerObjective == "f"){
