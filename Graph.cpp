@@ -187,6 +187,7 @@ vector<Flight> Graph::runDijkstraAlgorithm(const string &citySource, const strin
   Time timeFromSourceCity("12:00am");
   for (int i = 1; i < numberOfVertices; i++)
   {
+    // FEWEST HOPS: flightThatGetsMeThere
     flightWithEarliestPossibleArrival = (*this).returnFlightWithEarliestPossibleArrival(cityNamesByIndex[0], cityNamesByIndex[i], timeFromSourceCity);
     flightToCity.push_back(flightWithEarliestPossibleArrival);       
   }
@@ -214,6 +215,7 @@ vector<Flight> Graph::runDijkstraAlgorithm(const string &citySource, const strin
     {
       // ... there is a flight to city i, so set the weight to the flight's time duration.
       weightToCity[i] = flightToCity[i].returnDuration();
+      // FEWEST HOPS: weightToCity[i] = 1
     }
   }// end for i loop.
 
