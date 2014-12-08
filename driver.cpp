@@ -46,7 +46,7 @@ int main(int argc, char * argv[]){
     if(customerObjective == "J" || customerObjective == "j"){
       cout << "We are sorry, this option is not yet implemented. Have a nice day!" << endl;
       vector<Flight> flights;
-      flights = graph.runDijkstraAlgorithm(departure,destination);
+      flights = graph.runDijkstraAlgorithm(departure,destination, 'J');
       for(int i = 0; i < flights.size(); i++){
 flights[i].show();
 }
