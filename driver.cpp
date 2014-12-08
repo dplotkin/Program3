@@ -45,6 +45,11 @@ int main(int argc, char * argv[]){
     cin >> customerObjective;
     if(customerObjective == "J" || customerObjective == "j"){
       cout << "We are sorry, this option is not yet implemented. Have a nice day!" << endl;
+      vector<Flight> flights;
+      flights = graph.runDijkstraAlgorithm(departure,destination);
+      for(int i = 0; i < flights.size(); i++){
+flights[i].show();
+}
       correctInput = true;
     }
     else if(customerObjective == "F" || customerObjective == "f"){
