@@ -1,7 +1,7 @@
-all: Flight
+all: fly
 
-Flight: driver.o Graph.o Flight.o Time.o Date.o City.o
-	g++ -std=c++11 driver.o Graph.o Flight.o Time.o Date.o City.o -o Flight
+fly: driver.o Graph.o Flight.o Time.o Date.o City.o
+	g++ -std=c++11 driver.o Graph.o Flight.o Time.o Date.o City.o -o fly
 
 driver.o: driver.cpp
 	g++ -std=c++11 -c driver.cpp -o driver.o
@@ -22,7 +22,7 @@ City.o: City.cpp
 	g++ -std=c++11 -c City.cpp -o City.o
 
 clean:
-	rm -f *.o *~ Flight
+	rm -f *.o *~ fly
 
 git: 	clean
 	git add -A;
