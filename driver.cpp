@@ -41,6 +41,7 @@ int main(int argc, char * argv[]){
   cout << "\tC: Cheapest: Find the cheapest (potentially multi-hop) itinerary, in terms of dollars, that meets the trip constraints." << endl;
   cout << "\tP: Print: Print out the Daily Flight Schedule." << endl;
   bool correctInput;
+
   while(!correctInput){
     cin >> customerObjective;
     if(customerObjective == "J" || customerObjective == "j"){
@@ -49,35 +50,37 @@ int main(int argc, char * argv[]){
 	}	
     
     else if(customerObjective == "F" || customerObjective == "f"){
+      cout << "Departure Flight" << endl;
       vector<Flight> flights;
       flights = graph.runDijkstraAlgorithm(departure,destination, 'F');
       for(int i = 0; i < flights.size(); i++){
-flights[i].show();
-}
-cout << "Return Flight" << endl;
+	flights[i].show();
+      }
+      cout << "Return Flight" << endl;
       flights = graph.runDijkstraAlgorithm(destination, departure, 'F');
-for(int i = 0; i < flights.size(); i++){
-flights[i].show();
+      for(int i = 0; i < flights.size(); i++){
+	flights[i].show();
 }
       correctInput = true;
-    
-}
+      
+    }
     else if(customerObjective == "C" || customerObjective == "c"){
       cout << "We are sorry, this option is not yet implemented. Have a nice day!" << endl;
       correctInput = true;
     }
-
+    
     else if(customerObjective == "S" || customerObjective == "s"){
+      cout << "Departure Flight" << endl;
       vector<Flight> flights;
       flights = graph.runDijkstraAlgorithm(departure,destination, 'S');
       for(int i = 0; i < flights.size(); i++){
-flights[i].show();
-}
-cout << "Return Flight" << endl;
-flights = graph.runDijkstraAlgorithm(destination,departure, 'S');
-for(int i = 0; i < flights.size(); i++){
-flights[i].show();
-}
+	flights[i].show();
+      }
+      cout << "Return Flight" << endl;
+      flights = graph.runDijkstraAlgorithm(destination,departure, 'S');
+      for(int i = 0; i < flights.size(); i++){
+	flights[i].show();
+      }
       correctInput = true;
     }
     else if(customerObjective == "P" || customerObjective == "p"){
