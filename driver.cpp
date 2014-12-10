@@ -75,7 +75,28 @@ int main(int argc, char * argv[]){
       
     }
     else if(customerObjective == "C" || customerObjective == "c"){
-      cout << "We are sorry, this option is not yet implemented. Have a nice day!" << endl;
+      cout << "Departure Flight" << endl;
+      vector<Flight> flights;
+      flights = graph.getCheapestItinerary(departure,destination,earliestDepartureTime);
+      if(flights.size() == 0){
+	cout << "Sorry, there is no itinerary that'll get you from the source city to the destination city." << endl;
+      }
+      else{
+	for(int i = 0; i < flights.size(); i++){
+	  flights[i].show();
+	}
+      }
+      cout << "Return Flight" << endl;
+      flights = graph.getCheapestItinerary(destination,departure,earliestReturnTime);
+      if(flights.size() == 0){
+	cout << "Sorry, there is no itinerary that'll get you from the source city to the destination city." << endl;
+      }
+      else{
+	
+	for(int i = 0; i < flights.size(); i++){
+	  flights[i].show();
+	}
+      }
       correctInput = true;
     }
     

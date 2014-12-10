@@ -21,9 +21,17 @@ class Graph{
   Flight returnFlightForFewestHops(const string &, const string &);
   vector<Flight> runDijkstraAlgorithm(const string &, const string &, const char &);
   void oneDijkstraPass(int, int*, int*, vector<Flight> &, const vector<string> &, const char &);
+  
+  vector<Flight> getCheapestItinerary(const string &, const string &, const Time &);
+  void depthFirstSearch(const string &, const string &, const Time &);
+  bool hasBeenVisited(string);
 
  private:
   vector<City> cities;
+  vector<string> visitedCities;
+  vector<Flight> itinerary;
+  vector<vector<Flight>> itineraries;
+  int numItineraries;
   class VertexInfo{
   public:
     string data;

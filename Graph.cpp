@@ -496,3 +496,71 @@ vector<Flight> Graph::runDijkstraAlgorithm(const string &citySource, const strin
     }// end for i loop.
 }// end fn oneDijkstraPass
 
+
+
+vector<Flight> Graph::getCheapestItinerary(const string & origin, const string & destination, const Time & time){
+  numItineraries = 0;
+  while(!itineraries.empty()){
+    itineraries.pop_back();
+  }
+  vector<Flight> cheapest;
+  float cheapestCost = -1;
+  //depth first search goes here
+  depthFirstSearch(origin,destination,time);
+  //looking for the lowest cost inside of itineraries
+  for(int i = 0; i < numItineraries; i++){
+    float currentCost = 0;
+    for(int j = 0; j < itineraries[i].size(); j++){
+      currentCost += itineraries[i][j].returnCost();
+    }
+    if(currentCost < cheapestCost || cheapestCost == -1){
+      cheapest = itineraries[i];
+      cheapestCost = currentCost;
+    }
+  }
+  return cheapest;
+}
+
+
+void Graph::depthFirstSearch(const string & originCity, const string & destinationCity, const Time & time){
+  City currentCity;
+  for(int i = 0; i < cities.size(); i++){
+    if(cities[i].getName() == originCity){
+      currentCity = cities[i];
+    }
+  }
+  if(currentCity.getName() == destinationCity){
+    numItineraries++;
+    itineraries.push_back(itinerary);
+    itinerary.pop_back();
+    visitedCities.pop_back();
+    return;
+  }
+  else if(hasBeenVisited(currentCity.getName())){
+    itinerary.pop_back();
+    visitedCities.pop_back();
+    return;
+  }
+    
+  else if(currentCity.getFlights().size() == 0){
+    itinerary.pop_back();
+    visitedCities.pop_back();
+    return;
+  }
+  
+  for(int i = 0; i < currentCity.getFlights().size(); i++){
+    visitedCities.push_back(originCity);
+    string nextCity = currentCity.getFlights()[i].returnCityTo();
+    itinerary.push_back(currentCity.getFlights()[i]);
+    depthFirstSearch(nextCity,destinationCity,time);
+  }
+}
+
+bool Graph::hasBeenVisited(string city){
+  for(int i = 0; i < visitedCities.size(); i++){
+    if (city == visitedCities[i]){
+      return true;
+    }
+  }
+  return false;
+}
